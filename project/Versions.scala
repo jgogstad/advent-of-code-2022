@@ -25,9 +25,9 @@ object Versions {
   }
 
   object math {
-    val Spire   = "0.17.0"
+    val Spire   = "0.18.0"
     val Jgrapht = "1.5.1"
-    val Breeze  = "2.0"
+    val Breeze  = "2.1.0"
   }
 
   object types {

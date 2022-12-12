@@ -3,7 +3,7 @@ package jgogstad
 import breeze.linalg.DenseMatrix
 import breeze.math.Semiring
 import breeze.storage.Zero
-import cats.kernel.Group
+import cats.kernel.{Group, Monoid}
 import cats.syntax.all._
 import spire.ClassTag
 import spire.math.SafeLong
