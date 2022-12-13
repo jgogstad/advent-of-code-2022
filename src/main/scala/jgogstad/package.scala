@@ -9,6 +9,7 @@ import fs2.io.file.{Files, Path}
 import org.typelevel.log4cats.slf4j.Slf4jLogger
 import spire.ClassTag
 import spire.math.SafeLong
+
 package object jgogstad {
 
   def lines(path: String): Stream[IO, String] = Files[IO]
