@@ -1,19 +1,21 @@
-import cats.Show
-import cats.syntax.all._
 import breeze.linalg.DenseMatrix
 import breeze.math.Field
 import breeze.storage.Zero
+import cats.Show
 import cats.effect.IO
-import fs2.Pipe
-import jgogstad.utils.clamp
-import org.slf4j.LoggerFactory
+import cats.syntax.all._
+import fs2.{Pipe, Stream}
+import fs2.io.file.{Files, Path}
 import org.typelevel.log4cats.slf4j.Slf4jLogger
 import spire.ClassTag
 import spire.math.SafeLong
-
-import scala.annotation.tailrec
-
 package object jgogstad {
+
+  def lines(path: String): Stream[IO, String] = Files[IO]
+    .readAll(Path(getClass.getClassLoader.getResource(path).getPath))
+    .through(text.utf8.lines)
+
+
   object text {
     object utf8 {
       def lines[F[_]]: Pipe[F, Byte, String] = _.through(fs2.text.utf8.decode).through(fs2.text.lines)

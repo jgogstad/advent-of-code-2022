@@ -3,11 +3,9 @@ package jgogstad
 import algebra.ring.AdditiveMonoid
 import cats.effect.{ExitCode, IO, IOApp}
 import cats.syntax.all._
-import fs2.Pipe
-import fs2.io.file.{Files, Path}
+import fs2.{Pipe, Stream}
 import jgogstad.utils._
 import spire.implicits._
-
 object Day2 extends IOApp {
 
   // given input, what are the possible outcomes
@@ -29,9 +27,7 @@ object Day2 extends IOApp {
     case (c, 'Z') => possibleOutcomes(c).max
   }
 
-  val readInput = Files[IO]
-    .readAll(Path(getClass.getClassLoader.getResource("day2/input.txt").getPath))
-    .through(text.utf8.lines)
+  val readInput: Stream[IO, (Char, Char)] = lines("day2/input.txt")
     .filter(_.nonEmpty)
     .map(_.split(" "))
     .map { case Array(char(abc), char(xyz)) => abc -> xyz }

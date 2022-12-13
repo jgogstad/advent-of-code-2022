@@ -6,9 +6,7 @@ import fs2.io.file.{Files, Path}
 import cats.syntax.all._
 
 object Day1 extends IOApp {
-  val sums: Stream[IO, Int] = Files[IO]
-    .readAll(Path(getClass.getClassLoader.getResource("day1/input.txt").getPath))
-    .through(text.utf8.lines)
+  val sums: Stream[IO, Int] = lines("day1/input.txt")
     .groupAdjacentBy(_.isEmpty)
     .evalMapFilter {
       case (false, c) => IO(c.toList.traverse(s => Option(s.toInt)).map(_.sum))
