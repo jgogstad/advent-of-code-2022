@@ -4,8 +4,9 @@ import algebra.ring.AdditiveMonoid
 import cats.effect.{ExitCode, IO, IOApp}
 import cats.syntax.all._
 import fs2.{Pipe, Stream}
-import jgogstad.utils._
 import spire.implicits._
+
+// just problem breakdown and function composition
 object Day2 extends IOApp {
 
   // given input, what are the possible outcomes

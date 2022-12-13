@@ -6,6 +6,7 @@ import cats.syntax.all._
 import fs2.{Pipe, Stream}
 import spire.implicits._
 
+// range overlaps
 object Day4 extends IOApp {
 
   val readInput: Stream[IO, (Range.Inclusive, Range.Inclusive)] = lines("day4.txt").filter(_.nonEmpty).map {

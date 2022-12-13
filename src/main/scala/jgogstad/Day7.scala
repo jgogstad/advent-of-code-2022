@@ -1,9 +1,8 @@
 package jgogstad
 
-import cats.effect.{ExitCode, IO, IOApp}
-import fs2.Stream
 import cats.syntax.all._
 
+// finite state machine
 object Day7 extends App {
 
   val readInput = linesUnsafe("day7.txt")
@@ -12,9 +11,9 @@ object Day7 extends App {
     def /(p: String): String = s"${s.stripSuffix("/")}/${p.stripPrefix("/")}"
   }
 
-  // state machine: (cwd, path -> (IsDir, Size))
-  val fsm: (String, Map[String, (Boolean, Long)]) = readInput
-    .foldLeft("", Map.empty[String, (Boolean, Long)]) {
+  // state machine: (path -> (IsDir, Size))
+  def fsm(instructions: List[String]): Map[String, (Boolean, Long)] = instructions
+    .foldLeft("", Map.empty[String, (Boolean, Long)]) { // cwd -> fsm
       case ((path, dirs), "$ cd ..") => path.dropRightWhileThrough(_ != '/') -> dirs
       case ((path, dirs), s"$$ cd $dir") =>
         val sub = if (dir.startsWith("/")) dir else (path / dir)
@@ -27,23 +26,27 @@ object Day7 extends App {
         path -> tree
           .foldLeft(dirs)(_.updatedWith(_)(_.fold((false, size).some)(s => (s._1, s._2 + size).some)))
           .updated(path / file, (false, size))
-    }
+    }._2
 
-  val task1 = fsm.collect {
+  val finalState = fsm(readInput)
+
+  val task1 = finalState.collect {
     case (k, (true, size)) if size <= 100000 => size
   }.sum
 
+  println(task1)
+  
   val task2 = {
     val size = 70000000L
     val needed = 30000000L
-    val free = size - fsm("/")._2
+    val free = size - finalState("/")._2
     val toFree = needed - free
 
-    val result = fsm.collect {
+    val result = finalState.collect {
       case (k, (true, size)) if size >= toFree => k -> size
     }.minBy(_._2)
+
     println(result)
   }
 
-  println(task1)
 }

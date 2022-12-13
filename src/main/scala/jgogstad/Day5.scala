@@ -1,9 +1,8 @@
 package jgogstad
 
 import cats.effect.{ExitCode, IO, IOApp}
-import utils._
-import cats.syntax.all._
 
+// matrix transposition
 object Day5 extends IOApp {
   val parseInput: IO[(List[Array[Char]], List[String])] = lines("day5.txt")
     .groupAdjacentBy(_.nonEmpty)

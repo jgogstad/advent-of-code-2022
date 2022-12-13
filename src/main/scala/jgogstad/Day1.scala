@@ -1,10 +1,10 @@
 package jgogstad
 
 import cats.effect.{ExitCode, IO, IOApp}
-import fs2.Stream
-import fs2.io.file.{Files, Path}
 import cats.syntax.all._
+import fs2.Stream
 
+// simple sums
 object Day1 extends IOApp {
   val sums: Stream[IO, Int] = lines("day1/input.txt")
     .groupAdjacentBy(_.isEmpty)

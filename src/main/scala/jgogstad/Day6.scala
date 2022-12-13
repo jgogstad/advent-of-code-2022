@@ -1,9 +1,6 @@
 package jgogstad
 
-import cats.effect.IOApp
-import cats.syntax.all._
-import fs2.Stream
-
+// sliding window
 object Day6 extends App {
 
   val input =

@@ -5,6 +5,8 @@ import cats.syntax.all._
 import fs2.{Pipe, Stream}
 import spire.algebra._
 import spire.implicits._
+
+// set intersection
 object Day3 extends IOApp {
   val readInput: Stream[IO, String] = lines("day3.txt").filter(_.nonEmpty)
 
