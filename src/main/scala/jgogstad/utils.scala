@@ -12,7 +12,7 @@ import spire.implicits._
 import scala.annotation.tailrec
 import scala.util.Try
 
-object utils {
+trait utils {
   def clamp(min: Int, max: Int)(i: Int): Int = Math.min(Math.max(i, min), max)
 
   object char {
@@ -78,3 +78,5 @@ object utils {
 //    }
 //  }
 }
+
+object utils extends utils

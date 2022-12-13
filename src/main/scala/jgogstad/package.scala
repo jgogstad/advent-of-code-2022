@@ -10,12 +10,15 @@ import org.typelevel.log4cats.slf4j.Slf4jLogger
 import spire.ClassTag
 import spire.math.SafeLong
 
-package object jgogstad {
+import scala.io.Source
+
+package object jgogstad extends utils {
 
   def lines(path: String): Stream[IO, String] = Files[IO]
     .readAll(Path(getClass.getClassLoader.getResource(path).getPath))
     .through(text.utf8.lines)
 
+  def linesUnsafe(path: String): List[String] = Source.fromURL(getClass.getClassLoader.getResource(path)).getLines().toList
 
   object text {
     object utf8 {
@@ -128,5 +131,11 @@ package object jgogstad {
       val cols = DenseMatrix.create(m1.rows, n, Array.fill(m1.rows * n)(el))
       DenseMatrix.horzcat(cols, m1, cols)
     }
+  }
+
+  implicit class StringOps(s: String) {
+    def dropRightWhile(f: Char => Boolean): String = s.reverse.dropWhile(f).reverse
+    def dropRightWhileThrough(f: Char => Boolean): String = s.reverse.dropWhile(f).drop(1).reverse
+    def dropWhileThrough(f: Char => Boolean): String = s.dropWhile(f).drop(1)
   }
 }
