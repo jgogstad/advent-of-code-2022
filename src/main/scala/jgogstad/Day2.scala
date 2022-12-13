@@ -1,10 +1,8 @@
 package jgogstad
 
-import algebra.ring.AdditiveMonoid
 import cats.effect.{ExitCode, IO, IOApp}
 import cats.syntax.all._
 import fs2.{Pipe, Stream}
-import spire.implicits._
 
 // just problem breakdown and function composition
 object Day2 extends IOApp {
@@ -28,7 +26,7 @@ object Day2 extends IOApp {
     case (c, 'Z') => possibleOutcomes(c).max
   }
 
-  val readInput: Stream[IO, (Char, Char)] = lines("day2/input.txt")
+  val readInput: Stream[IO, (Char, Char)] = lines("day2.txt")
     .filter(_.nonEmpty)
     .map(_.split(" "))
     .map { case Array(char(abc), char(xyz)) => abc -> xyz }
@@ -36,12 +34,12 @@ object Day2 extends IOApp {
   override def run(args: List[String]): IO[ExitCode] = {
     val task1: Pipe[IO, (Char, Char), Int] =
       _.map(Function.uncurried(normalRules _ compose possibleOutcomes).tupled)
-        .foldMonoid(AdditiveMonoid[Int].additive)
+        .foldMonoid
         .evalTap(i => log.info(show"task 1: $i"))
 
     val task2: Pipe[IO, (Char, Char), Int] =
       _.map(choose.tupled)
-        .foldMonoid(AdditiveMonoid[Int].additive)
+        .foldMonoid
         .evalTap(i => log.info(show"task 2: $i"))
 
     readInput.broadcastThrough(task1, task2).compile.drain.as(ExitCode.Success)

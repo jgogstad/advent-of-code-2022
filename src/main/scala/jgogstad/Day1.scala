@@ -6,7 +6,7 @@ import fs2.Stream
 
 // simple sums
 object Day1 extends IOApp {
-  val sums: Stream[IO, Int] = lines("day1/input.txt")
+  val sums: Stream[IO, Int] = lines("day1.txt")
     .groupAdjacentBy(_.isEmpty)
     .evalMapFilter {
       case (false, c) => IO(c.toList.traverse(s => Option(s.toInt)).map(_.sum))

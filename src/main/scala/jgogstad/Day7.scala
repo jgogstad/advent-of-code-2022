@@ -35,7 +35,7 @@ object Day7 extends App {
   }.sum
 
   println(task1)
-  
+
   val task2 = {
     val size = 70000000L
     val needed = 30000000L
