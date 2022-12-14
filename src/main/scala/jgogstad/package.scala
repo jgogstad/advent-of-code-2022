@@ -5,7 +5,7 @@ import cats.effect.IO
 import cats.syntax.all._
 import fs2.io.file.{Files, Path}
 import fs2.{Pipe, Stream}
-import jgogstad.ops.{DenseMatrixOps, IntOps, StringOps}
+import jgogstad.ops.{DenseMatrixOps, IntOps, ListOps, StringOps}
 import org.typelevel.log4cats.slf4j.Slf4jLogger
 import spire.ClassTag
 import spire.math.SafeLong
@@ -35,6 +35,7 @@ package object jgogstad {
 
   implicit def stringOps(s: String): StringOps = new StringOps(s)
   implicit def intOps(i: Int): IntOps          = new IntOps(i)
+  implicit def listOps[A](l: List[A]): ListOps[A]          = new ListOps(l)
 
   object char {
     def unapply(s: String): Option[Char] = {

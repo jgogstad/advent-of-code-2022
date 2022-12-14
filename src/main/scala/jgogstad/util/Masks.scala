@@ -28,7 +28,7 @@ object Masks {
    * 1 1 1
    * 0 1 0
    */
-  def cross[A: ClassTag: Zero: Semiring](rows: Int, cols: Int): DenseMatrix[A] = {
+  def cross[A: ClassTag: Zero: Semiring](rows: Int, cols: Int, midpoint: Option[A] = None): DenseMatrix[A] = {
     if (rows % 2 == 0 || cols % 2 == 0) throw new Exception("Need odd numbered rows and columns for cross mask")
     val rowMiddle = rows / 2
     val colMiddle = cols / 2
@@ -38,6 +38,10 @@ object Masks {
 
     for (i <- 0 until cols) m.update(rowMiddle, i, one)
     for (i <- 0 until rows) m.update(i, colMiddle, one)
-    m
+
+    midpoint.fold(m) { midpoint =>
+      m.update(rowMiddle, colMiddle, midpoint)
+      m
+    }
   }
 }
