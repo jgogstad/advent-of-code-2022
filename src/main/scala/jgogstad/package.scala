@@ -1,3 +1,4 @@
+import algebra.ring.Semiring
 import breeze.linalg.DenseMatrix
 import breeze.math.Field
 import cats.Show
@@ -5,10 +6,10 @@ import cats.effect.IO
 import cats.syntax.all._
 import fs2.io.file.{Files, Path}
 import fs2.{Pipe, Stream}
-import jgogstad.ops.{DenseMatrixOps, IntOps, ListOps, StringOps}
+import jgogstad.ops.{ArrayListOps, ComplexIntOps, DenseMatrixOps, IntOps, ListOps, StringOps}
 import org.typelevel.log4cats.slf4j.Slf4jLogger
 import spire.ClassTag
-import spire.math.SafeLong
+import spire.math.{Complex, SafeLong}
 import spire.syntax.all._
 
 import scala.io.Source
@@ -36,6 +37,8 @@ package object jgogstad {
   implicit def stringOps(s: String): StringOps = new StringOps(s)
   implicit def intOps(i: Int): IntOps          = new IntOps(i)
   implicit def listOps[A](l: List[A]): ListOps[A]          = new ListOps(l)
+  implicit def arrayListOps[A](aa: Array[List[A]]): ArrayListOps[A] = new ArrayListOps[A](aa)
+  implicit def complexOps(c: Complex[Int]): ComplexIntOps = new ComplexIntOps(c)
 
   object char {
     def unapply(s: String): Option[Char] = {
