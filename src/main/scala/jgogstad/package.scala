@@ -6,7 +6,7 @@ import cats.effect.IO
 import cats.syntax.all._
 import fs2.io.file.{Files, Path}
 import fs2.{Pipe, Stream}
-import jgogstad.ops.{ArrayListOps, ComplexIntOps, DenseMatrixOps, IntOps, ListOps, StringOps}
+import jgogstad.ops.{ArrayListOps, ComplexIntOps, DenseMatrixOps, Fs2StreamOps, IntOps, ListOps, StringOps}
 import org.typelevel.log4cats.slf4j.Slf4jLogger
 import spire.ClassTag
 import spire.math.{Complex, SafeLong}
@@ -39,6 +39,7 @@ package object jgogstad {
   implicit def listOps[A](l: List[A]): ListOps[A]          = new ListOps(l)
   implicit def arrayListOps[A](aa: Array[List[A]]): ArrayListOps[A] = new ArrayListOps[A](aa)
   implicit def complexOps(c: Complex[Int]): ComplexIntOps = new ComplexIntOps(c)
+  implicit def fs2StreamOps[F[_], O](stream: fs2.Stream[F, O]): Fs2StreamOps[F, O] = new Fs2StreamOps(stream)
 
   object char {
     def unapply(s: String): Option[Char] = {
